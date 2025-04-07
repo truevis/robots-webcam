@@ -4,7 +4,9 @@ A lightweight Windows application that displays your webcam feed in a minimal, a
 
 ## Features
 
-- Displays live video feed from the first detected webcam
+- Displays live video feed from your webcams
+- Multiple camera support - switch between cameras with keyboard shortcuts
+- Camera information display showing current camera name and number
 - Always-on-top window stays visible over other applications
 - Borderless design for a clean overlay
 - Draggable window - click and drag the video feed to move it
@@ -12,6 +14,8 @@ A lightweight Windows application that displays your webcam feed in a minimal, a
     - `Ctrl +` / `Ctrl =`: Zoom In
     - `Ctrl -` / `Ctrl _`: Zoom Out
     - `Ctrl 0`: Reset to default size (320x240)
+- Camera selection:
+    - `Ctrl 1` to `Ctrl 9`: Switch to specific camera by number
 - No installation required - portable executable
 - Minimal CPU usage
 - Simple and intuitive - just run it
@@ -27,8 +31,10 @@ A lightweight Windows application that displays your webcam feed in a minimal, a
 2. Simply double-click the EXE file to run the application.
 3. The webcam feed will appear in a small, borderless window.
 4. Click and drag the video window to position it on your screen.
-5. Use the keyboard shortcuts (`Ctrl +`, `Ctrl -`, `Ctrl 0`) to resize the window.
-6. Close the window with `Alt+F4` to exit the application.
+5. Use the keyboard shortcuts to control the application:
+   - `Ctrl +`, `Ctrl -`, `Ctrl 0`: Resize the window
+   - `Ctrl 1` through `Ctrl 9`: Switch between available cameras
+6. Close the window with `Alt F4` to exit the application.
 
 ## Building from Source
 

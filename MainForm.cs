@@ -16,6 +16,8 @@ namespace WebcamViewer
         private Point dragStartPoint;
         private bool isDragging = false;
         private readonly Size defaultSize = new Size(320, 240);
+        private int currentCameraIndex = 0;
+        private Label cameraInfoLabel;
 
         // Window styles to remove border and make it click-through
         private const int WS_EX_LAYERED = 0x80000;
@@ -59,6 +61,20 @@ namespace WebcamViewer
             
             // Set up keyboard shortcuts
             this.KeyDown += MainForm_KeyDown;
+            
+            // Add camera info label
+            cameraInfoLabel = new Label
+            {
+                AutoSize = true,
+                BackColor = Color.FromArgb(180, 0, 0, 0),
+                ForeColor = Color.White,
+                Location = new Point(5, 5),
+                Padding = new Padding(3),
+                BorderStyle = BorderStyle.None,
+                Text = "Camera 1"
+            };
+            this.Controls.Add(cameraInfoLabel);
+            cameraInfoLabel.BringToFront();
         }
 
         private void OnMouseDown(object? sender, MouseEventArgs e)
@@ -108,6 +124,81 @@ namespace WebcamViewer
                 this.Size = defaultSize;
                 e.Handled = true;
                 e.SuppressKeyPress = true;
+            }
+            // Handle Ctrl+1 through Ctrl+9 for camera selection
+            else if (e.Control && 
+                    ((e.KeyCode >= Keys.D1 && e.KeyCode <= Keys.D9) || 
+                     (e.KeyCode >= Keys.NumPad1 && e.KeyCode <= Keys.NumPad9)))
+            {
+                int keyNumber = (e.KeyCode >= Keys.NumPad1 && e.KeyCode <= Keys.NumPad9) 
+                    ? e.KeyCode - Keys.NumPad1 
+                    : e.KeyCode - Keys.D1;
+                    
+                SwitchCamera(keyNumber);
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void SwitchCamera(int cameraIndex)
+        {
+            if (videoDevices == null || videoDevices.Count == 0)
+                return;
+                
+            // Check if the camera index is valid
+            if (cameraIndex >= videoDevices.Count)
+            {
+                MessageBox.Show($"Camera {cameraIndex + 1} is not available. Only {videoDevices.Count} camera(s) detected.", 
+                    "Camera Selection", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            
+            // Check if this is already the current camera
+            if (cameraIndex == currentCameraIndex)
+                return;
+                
+            // Stop the current camera
+            if (videoSource != null && videoSource.IsRunning)
+            {
+                try
+                {
+                    videoSource.NewFrame -= VideoSource_NewFrame;
+                    videoSource.SignalToStop();
+                    videoSource.WaitForStop();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error stopping camera: {ex.Message}");
+                }
+            }
+            
+            // Start the new camera
+            try
+            {
+                currentCameraIndex = cameraIndex;
+                videoSource = new VideoCaptureDevice(videoDevices[cameraIndex].MonikerString);
+                videoSource.NewFrame += VideoSource_NewFrame;
+                videoSource.Start();
+                
+                // Update the camera info label
+                UpdateCameraInfoLabel();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error switching to camera {cameraIndex + 1}: {ex.Message}", 
+                    "Camera Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        
+        private void UpdateCameraInfoLabel()
+        {
+            if (videoDevices != null && currentCameraIndex < videoDevices.Count)
+            {
+                string cameraName = videoDevices[currentCameraIndex].Name;
+                cameraInfoLabel.Text = $"Camera {currentCameraIndex + 1}: {cameraName}";
+                
+                // Adjust the label size to fit the text
+                cameraInfoLabel.AutoSize = true;
             }
         }
 
@@ -173,6 +264,9 @@ namespace WebcamViewer
                             "Camera Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         this.Close();
                     }
+                    
+                    // Update the camera info label
+                    UpdateCameraInfoLabel();
                 }
                 catch (Exception ex)
                 {

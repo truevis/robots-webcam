@@ -23,4 +23,4 @@ if %ERRORLEVEL% NEQ 0 (
 )
 
 echo Build completed! Executable is in the output folder.
-pause 
+@REM pause 
