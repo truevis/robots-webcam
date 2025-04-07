@@ -23,7 +23,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AForge.Video.DirectShow" Version="2.2.5" />
+    <PackageReference Include="AForge.Video.DirectShow" Version="2.2.5">
+      <PrivateAssets>analyzers</PrivateAssets>
+      <NoWarn>NU1701</NoWarn>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -48,7 +51,7 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <NoWarn>IL2026,IL2104,IL2075,IL2077</NoWarn>
+    <NoWarn>IL2026,IL2104,IL2075,IL2077,NU1701</NoWarn>
     <OptimizationPreference>Size</OptimizationPreference>
   </PropertyGroup>
 

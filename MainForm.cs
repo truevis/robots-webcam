@@ -17,7 +17,7 @@ namespace WebcamViewer
         private bool isDragging = false;
         private readonly Size defaultSize = new Size(320, 240);
         private int currentCameraIndex = 0;
-        private Label cameraInfoLabel;
+        private Label cameraInfoLabel = new Label();
 
         // Window styles to remove border and make it click-through
         private const int WS_EX_LAYERED = 0x80000;
