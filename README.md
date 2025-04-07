@@ -28,7 +28,7 @@ A lightweight Windows application that displays your webcam feed in a minimal, a
 3. The webcam feed will appear in a small, borderless window.
 4. Click and drag the video window to position it on your screen.
 5. Use the keyboard shortcuts (`Ctrl +`, `Ctrl -`, `Ctrl 0`) to resize the window.
-6. Close the window with Alt-F4 to exit the application.
+6. Close the window with `Alt-F4` to exit the application.
 
 ## Building from Source
 
