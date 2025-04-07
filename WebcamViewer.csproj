@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>WebcamViewer</RootNamespace>
+    <AssemblyName>WebcamViewer</AssemblyName>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PublishReadyToRun>true</PublishReadyToRun>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <DebugType>none</DebugType>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <IncludeAllContentForSelfExtract>false</IncludeAllContentForSelfExtract>
+    <DebugSymbols>false</DebugSymbols>
+    <GenerateRuntimeConfigurationFiles>false</GenerateRuntimeConfigurationFiles>
+    <GenerateSatelliteAssembliesForCore>false</GenerateSatelliteAssembliesForCore>
+    <ApplicationIcon>images\app-icon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AForge.Video.DirectShow" Version="2.2.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Remove embedded resources as they're causing issues -->
+    <!-- <EmbeddedResource Include="images\*.png" /> -->
+    <!-- <EmbeddedResource Include="images\*.ico" /> -->
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="images\*.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\*.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="MainForm copy.cs" />
+    <Compile Remove="MainForm - Copy.cs" />
+    <Compile Remove="Copy of MainForm.cs" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <NoWarn>IL2026,IL2104,IL2075,IL2077</NoWarn>
+    <OptimizationPreference>Size</OptimizationPreference>
+  </PropertyGroup>
+
+</Project> 
